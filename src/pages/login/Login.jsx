@@ -7,11 +7,11 @@ const Login = () => {
 
   return (
     <div className="flex justify-center items-center h-[calc(100vh-4rem)]">
-      {/* {!isOtpSent ? (
+      {!isOtpSent ? (
         <OtpGenerateForm setIsOtpSent={setIsOtpSent} />
-      ) : ( */}
-      <OtpVerificationForm />
-      {/* )} */}
+      ) : (
+        <OtpVerificationForm />
+      )}
     </div>
   );
 };
