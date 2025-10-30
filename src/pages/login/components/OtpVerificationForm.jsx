@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { verifyOtpAction } from "../../../redux/doc_slice";
+import { toast } from "react-toastify";
 
 const OtpVerificationForm = (props) => {
   const docState = useSelector((state) => state.documents);
@@ -9,15 +10,17 @@ const OtpVerificationForm = (props) => {
 
   const verifyOtp = async (e) => {
     e.preventDefault();
-    if (!otp) return alert("Enter OTP");
+    if (!otp) toast.warn("Enter OTP");
     const res = await dispatch(
       verifyOtpAction({
         mobileNumber: localStorage.getItem("mobile_number"),
         otp,
       })
     );
-    if (res) {
-      return alert("OTP verified and login successfully");
+    if (res.payload.status === true) {
+      toast.success("OTP verified and login successfully");
+    } else {
+      toast.error(res.payload.message);
     }
   };
 

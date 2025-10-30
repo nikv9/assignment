@@ -20,7 +20,11 @@ export const verifyOtpAction = createAsyncThunk(
   async (data) => {
     try {
       const res = await docService.verifyOtp(data);
-      localStorage.setItem("user", JSON.stringify(res.data.data));
+      console.log(res);
+      if (res.data.status === true) {
+        localStorage.setItem("userData", JSON.stringify(res.data.data));
+      }
+
       return res.data;
     } catch (error) {
       console.error(error);
@@ -30,6 +34,7 @@ export const verifyOtpAction = createAsyncThunk(
 );
 
 const initialState = {
+  user: JSON.parse(localStorage.getItem("userData")) || null,
   documents: [],
   loading: false,
   success: null,
@@ -43,6 +48,9 @@ const docSlice = createSlice({
     resetDocStateMsg: (state) => {
       state.success = null;
       state.error = null;
+    },
+    clrUser: (state) => {
+      state.user = null;
     },
   },
 
@@ -72,6 +80,8 @@ const docSlice = createSlice({
       .addCase(verifyOtpAction.fulfilled, (state, action) => {
         state.loading = false;
         state.success = "OTP verified successfully";
+        console.log(action);
+        state.user = action.payload;
       })
       .addCase(verifyOtpAction.rejected, (state, action) => {
         state.loading = false;
@@ -80,6 +90,6 @@ const docSlice = createSlice({
   },
 });
 
-export const { resetDocStateMsg } = docSlice.actions;
+export const { resetDocStateMsg, clrUser } = docSlice.actions;
 
 export default docSlice.reducer;

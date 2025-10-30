@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { generateOtpAction } from "../../../redux/doc_slice";
+import { toast } from "react-toastify";
 
 const OtpGenerateForm = (props) => {
   const docState = useSelector((state) => state.documents);
@@ -10,11 +11,15 @@ const OtpGenerateForm = (props) => {
 
   const generateOtp = async (e) => {
     e.preventDefault();
-    if (!mobile) return alert("Enter mobile number");
+    if (!mobile) toast.warn("Enter mobile number");
     const res = await dispatch(generateOtpAction(mobile));
-    if (res) {
+
+    if (res.payload.status === true) {
+      toast.success(res.payload.data);
       localStorage.setItem("mobile_number", mobile);
       props.setIsOtpSent(true);
+    } else {
+      toast.error(res.payload.message);
     }
   };
 
