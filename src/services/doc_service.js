@@ -1,8 +1,17 @@
+import apiInstance from "./api";
+
 const docService = {};
 
-const generateOTP = async (mobileNumber) => {
-  return await docService.post("/generateOTP", {
+docService.generateOtp = async (mobileNumber) => {
+  return await apiInstance.post("/generateOTP", {
     mobile_number: mobileNumber,
+  });
+};
+
+docService.verifyOtp = async (data) => {
+  return await apiInstance.post("/validateOTP", {
+    mobile_number: data.mobileNumber,
+    otp: data.otp,
   });
 };
 

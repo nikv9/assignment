@@ -1,7 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { verifyOtpAction } from "../../../redux/doc_slice";
 
-const OtpVerificationForm = () => {
-  return <div>OtpVerificationForm</div>;
+const OtpVerificationForm = (props) => {
+  const docState = useSelector((state) => state.documents);
+  const dispatch = useDispatch();
+  const [otp, setOtp] = useState("");
+
+  const verifyOtp = async (e) => {
+    e.preventDefault();
+    if (!otp) return alert("Enter OTP");
+    const res = await dispatch(
+      verifyOtpAction({
+        mobileNumber: localStorage.getItem("mobile_number"),
+        otp,
+      })
+    );
+    if (res) {
+      return alert("OTP verified and login successfully");
+    }
+  };
+
+  return (
+    <div className="w-[30%] shadow-xl p-4 border border-gray-500 rounded-md">
+      <h3 className="text-center mb-5!">Verify OTP</h3>
+      <form onSubmit={verifyOtp} className="flex flex-col items-center gap-4">
+        <input
+          type="text"
+          placeholder="Enter OTP"
+          value={otp}
+          onChange={(e) => setOtp(e.target.value)}
+          className="p-2 border w-[70%] rounded-md "
+        />
+        <button
+          type="submit"
+          disabled={docState.loading}
+          className="p-2 w-[70%] rounded-md bg-[#1464dc] cursor-pointer hover:bg-[#0744a0]"
+        >
+          {docState.loading ? "Sending..." : "Verfiy OTP"}
+        </button>
+      </form>
+    </div>
+  );
 };
 
 export default OtpVerificationForm;
