@@ -5,7 +5,7 @@
   margin: 0;
 }
 body{
-  background: linear-gradient(180deg, purple,black);
+  background: linear-gradient(180deg, #030c24,black);
   color: white;
   letter-spacing: .1rem;
   font-family: "Open Sans", sans-serif;

@@ -3,7 +3,7 @@ import FileUploadForm from "./components/FileUploadForm";
 
 const UploadFile = () => {
   return (
-    <div className="flex justify-center items-center h-[calc(100vh-4rem)]">
+    <div className="flex justify-center pt-4 h-[calc(100vh-4rem)]">
       <FileUploadForm />
     </div>
   );

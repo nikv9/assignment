@@ -18,45 +18,43 @@ const UserForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <form
-        onSubmit={createUser}
-        className="p-6 rounded-md shadow-2xl w-80 flex flex-col gap-5"
+    <form
+      onSubmit={createUser}
+      className="flex flex-col gap-4 w-[30%] shadow-md border p-4 rounded-md h-fit"
+    >
+      <h2 className="text-xl font-semibold mb-4 text-center">Create User</h2>
+
+      <div className="">
+        <label className="text-sm">Username</label>
+        <input
+          type="text"
+          name="username"
+          value={formData.username}
+          onChange={changeInputVal}
+          className="w-full border rounded-md p-2 outline-none"
+          required
+        />
+      </div>
+
+      <div className="">
+        <label className="text-sm">Password</label>
+        <input
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={changeInputVal}
+          className="w-full border rounded-md p-2 outline-none"
+          required
+        />
+      </div>
+
+      <button
+        type="submit"
+        className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
       >
-        <h2 className="text-xl font-semibold mb-4 text-center">Create User</h2>
-
-        <div className="">
-          <label className="text-sm">Username</label>
-          <input
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={changeInputVal}
-            className="w-full border rounded-md p-2 outline-none"
-            required
-          />
-        </div>
-
-        <div className="">
-          <label className="text-sm">Password</label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={changeInputVal}
-            className="w-full border rounded-md p-2 outline-none"
-            required
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
-        >
-          Create User
-        </button>
-      </form>
-    </div>
+        Create User
+      </button>
+    </form>
   );
 };
 

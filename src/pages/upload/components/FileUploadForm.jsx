@@ -5,140 +5,119 @@ import { toast } from "react-toastify";
 
 const FileUploadForm = () => {
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.documents);
-
+  const { loading } = useSelector((s) => s.documents);
   const [file, setFile] = useState(null);
   const [date, setDate] = useState("");
-  const [majorHead, setMajorHead] = useState("");
-  const [minorHead, setMinorHead] = useState("");
+  const [major, setMajor] = useState("");
+  const [minor, setMinor] = useState("");
   const [tags, setTags] = useState([]);
-  const [tagInput, setTagInput] = useState("");
+  const [tag, setTag] = useState("");
   const [remarks, setRemarks] = useState("");
 
-  const personalList = ["John", "Tom", "Emily"];
-  const professionalList = ["Accounts", "HR", "IT", "Finance"];
-
-  const addTags = (e) => {
+  const addTag = (e) => {
     e.preventDefault();
-    if (tagInput && !tags.includes(tagInput)) {
-      setTags([...tags, tagInput]);
-      setTagInput("");
-    }
+    if (tag && !tags.includes(tag)) setTags([...tags, tag]), setTag("");
   };
 
   const uploadFile = async (e) => {
     e.preventDefault();
     if (!file) return toast.error("Select a file");
-
+    const userData = JSON.parse(localStorage.getItem("userData"));
     const formattedDate = date
       ? new Date(date).toLocaleDateString("en-GB").split("/").join("-")
       : "";
-
-    const userData = JSON.parse(localStorage.getItem("userData"));
-
     const formData = new FormData();
     formData.append("file", file);
     formData.append(
       "data",
       JSON.stringify({
-        major_head: majorHead,
-        minor_head: minorHead,
+        major_head: major,
+        minor_head: minor,
         document_date: formattedDate,
         document_remarks: remarks,
         tags: tags.map((t) => ({ tag_name: t })),
         user_id: userData?.user_id,
       })
     );
-
     const res = await dispatch(uploadFileAction(formData));
-    if (res.payload.status === true) {
-      toast.success(res.payload.message);
-    } else {
-      toast.error(res.payload.message);
-    }
+    toast[res.payload.status ? "success" : "error"](res.payload.message);
   };
 
   return (
     <form
       onSubmit={uploadFile}
-      className="flex flex-col gap-4 w-[30%] shadow-md border p-4 rounded-md"
+      className="flex flex-col gap-4 w-[30%] shadow-md border p-4 rounded-md h-fit"
     >
       <input
         type="date"
         value={date}
         onChange={(e) => setDate(e.target.value)}
-        className="border p-2 rounded"
+        className="border p-2 rounded scheme-dark"
       />
-
       <select
-        value={majorHead}
-        onChange={(e) => setMajorHead(e.target.value)}
-        className="border p-2 rounded text-black"
+        value={major}
+        onChange={(e) => setMajor(e.target.value)}
+        className="border p-2 rounded"
       >
         <option value="">Select Category</option>
         <option value="Personal">Personal</option>
         <option value="Professional">Professional</option>
       </select>
-
-      {majorHead && (
+      {major && (
         <select
-          value={minorHead}
-          onChange={(e) => setMinorHead(e.target.value)}
+          value={minor}
+          onChange={(e) => setMinor(e.target.value)}
           className="border p-2 rounded"
         >
           <option value="">
-            Select {majorHead === "Personal" ? "Name" : "Department"}
+            Select {major === "Personal" ? "Name" : "Department"}
           </option>
-          {(majorHead === "Personal" ? personalList : professionalList).map(
-            (item) => (
-              <option key={item}>{item}</option>
-            )
-          )}
+          {(major === "Personal"
+            ? ["John", "Tom", "Emily"]
+            : ["Accounts", "HR", "IT", "Finance"]
+          ).map((i) => (
+            <option key={i}>{i}</option>
+          ))}
         </select>
       )}
-
       <div>
         <div className="flex gap-2">
           <input
-            type="text"
-            value={tagInput}
-            onChange={(e) => setTagInput(e.target.value)}
+            value={tag}
+            onChange={(e) => setTag(e.target.value)}
             placeholder="Add tag"
             className="border p-2 rounded w-full"
           />
           <button
-            onClick={addTags}
+            onClick={addTag}
             className="bg-[crimson] text-white px-3 rounded"
           >
             Add
           </button>
         </div>
         <div className="flex flex-wrap gap-2 mt-2!">
-          {tags.map((tag) => (
+          {tags.map((t) => (
             <span
-              key={tag}
+              key={t}
               className="bg-gray-200 text-black px-2 py-1 rounded text-sm"
             >
-              {tag}
+              {t}
             </span>
           ))}
         </div>
       </div>
-
       <textarea
         placeholder="Remarks"
         value={remarks}
         onChange={(e) => setRemarks(e.target.value)}
         className="border p-2 rounded"
       />
-
       <input
         type="file"
         accept=".png,.jpg,.jpeg,.pdf"
         onChange={(e) => setFile(e.target.files[0])}
         className="border p-2 rounded"
       />
-
       <button
         type="submit"
         disabled={loading}

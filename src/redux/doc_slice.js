@@ -47,12 +47,23 @@ export const uploadFileAction = createAsyncThunk(
   }
 );
 
+export const searchFilesAction = createAsyncThunk(
+  "doc/files",
+  async (data, { getState }) => {
+    console.log("first");
+    const token = getState().documents?.user?.token;
+    const res = await docService.searchFiles(data, token);
+    return res.data;
+  }
+);
+
 const initialState = {
   user: JSON.parse(localStorage.getItem("userData")) || null,
   documents: [],
   loading: false,
   success: null,
   error: null,
+  files: [],
 };
 
 const docSlice = createSlice({
@@ -113,6 +124,19 @@ const docSlice = createSlice({
       .addCase(uploadFileAction.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error?.message || "Upload failed";
+      })
+
+      // search file
+      .addCase(searchFilesAction.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(searchFilesAction.fulfilled, (state, action) => {
+        state.loading = false;
+        state.files = action.payload?.data;
+      })
+      .addCase(searchFilesAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error?.message;
       });
   },
 });

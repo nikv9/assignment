@@ -24,4 +24,10 @@ docService.uploadFile = async (formData, token) => {
   });
 };
 
+docService.searchFiles = async (data, token) => {
+  return await apiInstance.post("/searchDocumentEntry", data, {
+    headers: { token },
+  });
+};
+
 export default docService;
