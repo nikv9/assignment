@@ -1,9 +1,10 @@
 import React from "react";
 import Header from "./components/Header";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, Link } from "react-router-dom";
 import Login from "./pages/login/Login";
 import { useSelector } from "react-redux";
 import CreateUser from "./pages/admin/CreateUser";
+import UploadFile from "./pages/upload/FileUpload";
 
 const App = () => {
   const docState = useSelector((state) => state.documents);
@@ -20,6 +21,11 @@ const App = () => {
           <Route
             path="/user/create"
             element={docState.user ? <CreateUser /> : <Navigate to="/" />}
+          />
+
+          <Route
+            path="/upload"
+            element={docState.user ? <UploadFile /> : <Navigate to="/" />}
           />
         </Routes>
       </div>

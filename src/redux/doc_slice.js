@@ -33,6 +33,20 @@ export const verifyOtpAction = createAsyncThunk(
   }
 );
 
+export const uploadFileAction = createAsyncThunk(
+  "doc/uploadFile",
+  async (formData, { getState }) => {
+    try {
+      const token = getState().documents.user?.token;
+      const res = await docService.uploadFile(formData, token);
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+);
+
 const initialState = {
   user: JSON.parse(localStorage.getItem("userData")) || null,
   documents: [],
@@ -86,6 +100,19 @@ const docSlice = createSlice({
       .addCase(verifyOtpAction.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error?.message;
+      })
+
+      // upload file
+      .addCase(uploadFileAction.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(uploadFileAction.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = "File uploaded successfully!";
+      })
+      .addCase(uploadFileAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error?.message || "Upload failed";
       });
   },
 });
