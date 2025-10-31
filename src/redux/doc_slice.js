@@ -35,10 +35,9 @@ export const verifyOtpAction = createAsyncThunk(
 
 export const uploadFileAction = createAsyncThunk(
   "doc/uploadFile",
-  async (formData, { getState }) => {
+  async ({ data, token }) => {
     try {
-      const token = getState().documents.user?.token;
-      const res = await docService.uploadFile(formData, token);
+      const res = await docService.uploadFile(data, token);
       return res.data;
     } catch (error) {
       console.error(error);
@@ -49,9 +48,7 @@ export const uploadFileAction = createAsyncThunk(
 
 export const searchFilesAction = createAsyncThunk(
   "doc/files",
-  async (data, { getState }) => {
-    console.log("first");
-    const token = getState().documents?.user?.token;
+  async ({ data, token }) => {
     const res = await docService.searchFiles(data, token);
     return res.data;
   }

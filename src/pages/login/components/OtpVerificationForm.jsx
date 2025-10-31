@@ -25,7 +25,7 @@ const OtpVerificationForm = (props) => {
   };
 
   return (
-    <div className="w-[30%] shadow-xl p-4 border border-gray-500 rounded-md">
+    <div className="w-[90%] h-fit sm:w-[80%] md:w-[60%] lg:w-[30%] backdrop-blur-md text-white border border-gray-600 rounded-lg shadow-xl p-6">
       <h3 className="text-center mb-5!">Verify OTP</h3>
       <form onSubmit={verifyOtp} className="flex flex-col items-center gap-4">
         <input
@@ -40,7 +40,7 @@ const OtpVerificationForm = (props) => {
           disabled={docState.loading}
           className="p-2 w-[70%] rounded-md bg-[#1464dc] cursor-pointer hover:bg-[#0744a0]"
         >
-          {docState.loading ? "Sending..." : "Verfiy OTP"}
+          {docState.loading ? "Verifying..." : "Verfiy OTP"}
         </button>
       </form>
     </div>

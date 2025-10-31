@@ -15,8 +15,8 @@ docService.verifyOtp = async (data) => {
   });
 };
 
-docService.uploadFile = async (formData, token) => {
-  return await apiInstance.post("/saveDocumentEntry", formData, {
+docService.uploadFile = async (data, token) => {
+  return await apiInstance.post("/saveDocumentEntry", data, {
     headers: {
       "Content-Type": "multipart/form-data",
       token: token,

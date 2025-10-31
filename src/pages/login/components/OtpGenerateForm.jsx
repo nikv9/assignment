@@ -24,7 +24,7 @@ const OtpGenerateForm = (props) => {
   };
 
   return (
-    <div className="w-[30%] shadow-xl p-4 border border-gray-500 rounded-md">
+    <div className="w-[90%] h-fit sm:w-[80%] md:w-[60%] lg:w-[30%] backdrop-blur-md text-white border border-gray-600 rounded-lg shadow-xl p-6">
       <h3 className="text-center mb-5!">Login with Mobile</h3>
       <form onSubmit={generateOtp} className="flex flex-col items-center gap-4">
         <input
@@ -32,12 +32,12 @@ const OtpGenerateForm = (props) => {
           placeholder="Enter mobile number"
           value={mobile}
           onChange={(e) => setMobile(e.target.value)}
-          className="p-2 border w-[70%] rounded-md "
+          className="p-2 border w-full rounded-md "
         />
         <button
           type="submit"
           disabled={docState.loading}
-          className="p-2 w-[70%] rounded-md bg-[crimson] cursor-pointer hover:bg-[#b5122b]"
+          className="p-2 w-full rounded-md bg-[crimson] cursor-pointer hover:bg-[#b5122b]"
         >
           {docState.loading ? "Sending..." : "Generate OTP"}
         </button>

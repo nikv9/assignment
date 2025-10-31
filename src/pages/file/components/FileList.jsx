@@ -4,38 +4,43 @@ import { searchFilesAction } from "../../../redux/doc_slice";
 
 const FileList = () => {
   const dispatch = useDispatch();
-  const { loading, files } = useSelector((s) => s.documents);
+  const docState = useSelector((s) => s.documents);
   const [preview, setPreview] = useState("");
 
   useEffect(() => {
     dispatch(
       searchFilesAction({
-        major_head: "",
-        minor_head: "",
-        from_date: "",
-        to_date: "",
-        uploaded_by: "",
-        start: 0,
-        length: 50,
-        filterId: "",
-        search: { value: "" },
+        data: {
+          major_head: "",
+          minor_head: "",
+          from_date: "",
+          to_date: "",
+          uploaded_by: "",
+          start: 0,
+          length: 50,
+          filterId: "",
+          search: { value: "" },
+        },
+        token: docState.user.token,
       })
     );
-  }, [dispatch]);
+  }, []);
 
   return (
     <div className="text-sm mx-auto w-fit">
-      {loading && <p>Loading...</p>}
-      {!loading && !files?.length && <p>No files found.</p>}
+      {docState.loading && <p className="my-4!">Loading...</p>}
+      {!docState.loading && !docState.files?.length && (
+        <p className="my-4!">No files found.</p>
+      )}
 
-      {!loading && files?.length > 0 && (
+      {!docState.loading && docState.files?.length > 0 && (
         <>
           <button className="px-4 py-2 my-4! bg-[#0d162f] text-white rounded-md border border-gray-700 hover:bg-[#1a2340]">
             Download All (ZIP)
           </button>
 
           <div className="flex flex-wrap gap-4">
-            {files.map((f) => (
+            {docState.files.map((f) => (
               <div
                 key={f.document_id}
                 className="border border-gray-700 rounded-sm p-4 w-64 bg-[#0d162f] hover:bg-[#162040] transition-all"

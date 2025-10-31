@@ -20,10 +20,9 @@ const UserForm = () => {
   return (
     <form
       onSubmit={createUser}
-      className="flex flex-col gap-4 w-[30%] shadow-md border p-4 rounded-md h-fit"
+      className="w-[90%] h-fit sm:w-[80%] md:w-[60%] lg:w-[30%] backdrop-blur-md text-white border border-gray-600 rounded-lg shadow-xl p-6"
     >
       <h2 className="text-xl font-semibold mb-4 text-center">Create User</h2>
-
       <div className="">
         <label className="text-sm">Username</label>
         <input
@@ -35,7 +34,6 @@ const UserForm = () => {
           required
         />
       </div>
-
       <div className="">
         <label className="text-sm">Password</label>
         <input
@@ -47,10 +45,9 @@ const UserForm = () => {
           required
         />
       </div>
-
       <button
         type="submit"
-        className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+        className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition mt-4!"
       >
         Create User
       </button>

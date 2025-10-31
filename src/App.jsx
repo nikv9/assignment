@@ -15,33 +15,35 @@ const App = () => {
     <div className="min-h-dvh">
       <Header />
       <div>
-        <div className="flex items-center gap-4 p-2">
-          <Link
-            to="/user/create"
-            className={`p-2 bg-gray-500 rounded-md text-xs ${
-              urlPath === "/user/create" && "bg-[crimson]!"
-            }`}
-          >
-            Admin Page
-          </Link>
-          <Link
-            to="/upload"
-            className={`p-2 bg-gray-500 rounded-md text-xs ${
-              urlPath === "/upload" && "bg-[crimson]!"
-            }`}
-          >
-            File Upload
-          </Link>
+        {docState.user && (
+          <div className="flex items-center gap-4 p-2">
+            <Link
+              to="/user/create"
+              className={`p-2 bg-gray-500 rounded-md text-xs ${
+                urlPath === "/user/create" && "bg-[crimson]!"
+              }`}
+            >
+              Admin Page
+            </Link>
+            <Link
+              to="/upload"
+              className={`p-2 bg-gray-500 rounded-md text-xs ${
+                urlPath === "/upload" && "bg-[crimson]!"
+              }`}
+            >
+              File Upload
+            </Link>
 
-          <Link
-            to="/files"
-            className={`p-2 bg-gray-500 rounded-md text-xs ${
-              urlPath === "/files" && "bg-[crimson]!"
-            }`}
-          >
-            File Page
-          </Link>
-        </div>
+            <Link
+              to="/files"
+              className={`p-2 bg-gray-500 rounded-md text-xs ${
+                urlPath === "/files" && "bg-[crimson]!"
+              }`}
+            >
+              File Page
+            </Link>
+          </div>
+        )}
         <Routes>
           <Route
             path="/"

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { searchFilesAction } from "../../../redux/doc_slice";
 
 const formatDDMMYYYY = (isoDate) =>
@@ -8,6 +8,8 @@ const formatDDMMYYYY = (isoDate) =>
     : "";
 
 const FileSearch = () => {
+  const docState = useSelector((s) => s.documents);
+
   const dispatch = useDispatch();
   const [majorHead, setMajorHead] = useState("");
   const [minorHead, setMinorHead] = useState("");
@@ -38,7 +40,7 @@ const FileSearch = () => {
       search: { value: "" },
     };
 
-    dispatch(searchFilesAction(payload));
+    dispatch(searchFilesAction({ data: payload, token: docState.user.token }));
   };
 
   const clearFilters = () => {
@@ -50,16 +52,19 @@ const FileSearch = () => {
     setToDate("");
     dispatch(
       searchFilesAction({
-        major_head: "",
-        minor_head: "",
-        from_date: "",
-        to_date: "",
-        tags: [],
-        uploaded_by: "",
-        start: 0,
-        length: 50,
-        filterId: "",
-        search: { value: "" },
+        data: {
+          major_head: "",
+          minor_head: "",
+          from_date: "",
+          to_date: "",
+          tags: [],
+          uploaded_by: "",
+          start: 0,
+          length: 50,
+          filterId: "",
+          search: { value: "" },
+        },
+        token: docState.user.token,
       })
     );
   };
@@ -72,7 +77,7 @@ const FileSearch = () => {
         className="border py-1.5 px-2"
       >
         <option value="" className="text-black">
-          Select Category
+          Major Head
         </option>
         <option value="Personal" className="text-black">
           Personal

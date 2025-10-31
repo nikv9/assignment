@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 const FileUploadForm = () => {
   const dispatch = useDispatch();
-  const { loading } = useSelector((s) => s.documents);
+  const docState = useSelector((s) => s.documents);
   const [file, setFile] = useState(null);
   const [date, setDate] = useState("");
   const [major, setMajor] = useState("");
@@ -39,44 +39,54 @@ const FileUploadForm = () => {
         user_id: userData?.user_id,
       })
     );
-    const res = await dispatch(uploadFileAction(formData));
+    const res = await dispatch(
+      uploadFileAction({ formData, token: userData.token })
+    );
     toast[res.payload.status ? "success" : "error"](res.payload.message);
   };
 
   return (
     <form
       onSubmit={uploadFile}
-      className="flex flex-col gap-4 w-[30%] shadow-md border p-4 rounded-md h-fit"
+      className="flex flex-col gap-2 w-[90%] h-fit sm:w-[80%] md:w-[60%] lg:w-[30%] backdrop-blur-md text-white border border-gray-600 rounded-lg shadow-xl p-6"
     >
       <input
         type="date"
         value={date}
         onChange={(e) => setDate(e.target.value)}
-        className="border p-2 rounded scheme-dark"
+        className="border p-2 rounded scheme-dark w-full"
       />
       <select
         value={major}
         onChange={(e) => setMajor(e.target.value)}
-        className="border p-2 rounded"
+        className="border p-2 rounded w-full"
       >
-        <option value="">Select Category</option>
-        <option value="Personal">Personal</option>
-        <option value="Professional">Professional</option>
+        <option value="" className="text-black">
+          Major Head
+        </option>
+        <option value="Personal" className="text-black">
+          Personal
+        </option>
+        <option value="Professional" className="text-black">
+          Professional
+        </option>
       </select>
       {major && (
         <select
           value={minor}
           onChange={(e) => setMinor(e.target.value)}
-          className="border p-2 rounded"
+          className="border p-2 rounded w-full"
         >
-          <option value="">
+          <option value="" className="text-black">
             Select {major === "Personal" ? "Name" : "Department"}
           </option>
           {(major === "Personal"
             ? ["John", "Tom", "Emily"]
             : ["Accounts", "HR", "IT", "Finance"]
           ).map((i) => (
-            <option key={i}>{i}</option>
+            <option key={i} className="text-black">
+              {i}
+            </option>
           ))}
         </select>
       )}
@@ -110,20 +120,20 @@ const FileUploadForm = () => {
         placeholder="Remarks"
         value={remarks}
         onChange={(e) => setRemarks(e.target.value)}
-        className="border p-2 rounded"
+        className="border p-2 rounded w-full"
       />
       <input
         type="file"
         accept=".png,.jpg,.jpeg,.pdf"
         onChange={(e) => setFile(e.target.files[0])}
-        className="border p-2 rounded"
+        className="border p-2 rounded w-full"
       />
       <button
         type="submit"
-        disabled={loading}
-        className="bg-[crimson] text-white p-2 rounded hover:bg-[#b5122b]"
+        disabled={docState.loading}
+        className="bg-[crimson] text-white p-2 rounded w-full hover:bg-[#b5122b]"
       >
-        {loading ? "Uploading..." : "Upload File"}
+        {docState.loading ? "Uploading..." : "Upload File"}
       </button>
     </form>
   );
